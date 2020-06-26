@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.activitymanage.mapper.StatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.example.activitymanage.model.Statistics">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from statistics
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.activitymanage.model.Statistics" useGeneratedKeys="true">
+    insert into statistics (activity_id, type, number, 
+      date)
+    values (#{activityId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{date,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.activitymanage.model.Statistics">
+    update statistics
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      date = #{date,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, activity_id, type, number, date
+    from statistics
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, activity_id, type, number, date
+    from statistics
+  </select>
+</mapper>

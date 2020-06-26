@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.activitymanage.mapper.RecordMapper">
+    <resultMap id="BaseResultMap" type="com.example.activitymanage.model.Record">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="prize_id" jdbcType="INTEGER" property="prizeId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="date" jdbcType="TIMESTAMP" property="date"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.activitymanage.model.Record"
+            useGeneratedKeys="true">
+    insert into record (type, activity_id, prize_id, 
+      user_id, date)
+    values (#{type,jdbcType=VARCHAR}, #{activityId,jdbcType=INTEGER}, #{prizeId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.example.activitymanage.model.Record">
+    update record
+    set type = #{type,jdbcType=VARCHAR},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      prize_id = #{prizeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      date = #{date,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type, activity_id, prize_id, user_id, date
+    from record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, type, activity_id, prize_id, user_id, date
+    from record
+  </select>
+
+    <select id="getStatisticsByActId" resultType="com.example.activitymanage.response.StatisticsResponse">
+    select DATE_FORMAT(record.date,'%Y-%m-%d') as `date`, count(id) as `count`
+    from record
+    where record.activity_id=#{actId} and record.date between #{startTime} and #{endTime}
+    group by record.date
+    order by record.date
+  </select>
+</mapper>
