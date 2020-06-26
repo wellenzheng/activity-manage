@@ -1,5 +1,6 @@
 package com.example.activitymanage.request;
 
+import java.util.Date;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -29,7 +30,7 @@ public class ActivityRequest {
     private String actTypeRadio;
 
     @ApiModelProperty("活动时间")
-    private List<String> actDateTime;
+    private List<Date> actDateTime;
 
     @ApiModelProperty("用户类型")
     private String userTypeRadio;

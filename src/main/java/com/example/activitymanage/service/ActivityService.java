@@ -1,5 +1,6 @@
 package com.example.activitymanage.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,12 @@ public class ActivityService {
 
     public ActivityResponse getActivityById(Integer id) {
         Activity activity = activityMapper.selectByPrimaryKey(id);
-        return Activity.convertTo(activity);
+        ActivityResponse activityResponse = Activity.convertTo(activity);
+        activityResponse.setPrizes(prizeService.getPrizeListByActId(activity.getId()));
+        activityResponse.setStatistics(
+                recordService.getStatisticsByActId(activity.getId(), "2020-06-26",
+                        "2020-07-01"));
+        return activityResponse;
     }
 
     public Integer addActivity(ActivityRequest activityRequest) {

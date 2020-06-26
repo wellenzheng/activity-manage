@@ -22,4 +22,6 @@ public interface PrizeMapper {
     int updateByPrimaryKey(Prize record);
 
     void insertPrizeList(@Param("prizeList") List<Prize> prizeList);
+
+    List<Prize> selectByActId(@Param("actId") Integer actId);
 }

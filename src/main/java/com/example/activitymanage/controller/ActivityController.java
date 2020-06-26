@@ -37,14 +37,14 @@ public class ActivityController {
     private ActivityService activityService;
 
     @GetMapping("/getAllActivities")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ApiOperation(value = "获取所有活动列表")
     public CommonResponse<List<Activity>> getAllActivities() {
         return CommonResponse.success("获取所有活动列表", activityService.getAllActivities());
     }
 
     @GetMapping("/getActivityById")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ApiOperation(value = "根据id获取活动")
     public CommonResponse<ActivityResponse> getActivityById(
             @ApiParam(name = "id", value = "活动id") @RequestParam Integer id
@@ -53,7 +53,7 @@ public class ActivityController {
     }
 
     @PostMapping("/addActivity")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ApiOperation(value = "添加活动")
     public CommonResponse<CommonIdResponse> addActivity(
             @ApiParam(name = "activityRequest", value = "activityRequest") @RequestBody ActivityRequest activityRequest
@@ -64,7 +64,7 @@ public class ActivityController {
     }
 
     @PostMapping("/editActivityById")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ApiOperation(value = "根据id编辑活动")
     public CommonResponse<CommonIdResponse> editActivityById(
             @ApiParam(name = "id", value = "活动id") @RequestParam Integer id,

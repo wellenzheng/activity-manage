@@ -1,6 +1,7 @@
 package com.example.activitymanage.model;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
@@ -38,9 +39,9 @@ public class Activity {
 
     private Date createTime;
 
-    private Date startTime;
+    private String startTime;
 
-    private Date endTime;
+    private String endTime;
 
     private String description;
 
@@ -50,9 +51,10 @@ public class Activity {
         if (request == null) {
             return null;
         }
-        List<String> actDateTime = request.getActDateTime();
-        String startTime = actDateTime.get(0);
-        String endTime = actDateTime.get(1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Date> actDateTime = request.getActDateTime();
+        Date startTime = actDateTime.get(0);
+        Date endTime = actDateTime.get(1);
         return Activity.builder()
                 .name(request.getActName())
                 .type(request.getActTypeRadio())
@@ -60,8 +62,8 @@ public class Activity {
                 .limitTimes(request.getLimitTimes())
                 .status(request.getActStatus() == null ? StatusEnum.UNPUBLISHED.name() : request.getActStatus())
                 .createTime(new Date())
-                .startTime(new Date())
-                .endTime(new Date())
+                .startTime(dateFormat.format(startTime))
+                .endTime(dateFormat.format(endTime))
                 .creator(request.getCreator())
                 .description(request.getActDesc())
                 .virtualPars(request.getVirtualPars())

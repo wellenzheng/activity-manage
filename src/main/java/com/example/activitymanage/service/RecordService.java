@@ -24,6 +24,6 @@ public class RecordService {
     private RecordMapper recordMapper;
 
     public List<StatisticsResponse> getStatisticsByActId(Integer actId, String startTime, String endTime) {
-        return recordMapper.getStatisticsByActId(actId, startTime, endTime);
+        return actId == null || actId <= 0 ? null : recordMapper.getStatisticsByActId(actId, startTime, endTime);
     }
 }

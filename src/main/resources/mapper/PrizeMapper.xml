@@ -62,4 +62,10 @@
     is_lucky
     from prize
   </select>
+
+    <select id="selectByActId" resultMap="BaseResultMap">
+        select *
+        from prize
+        where activity_id=#{actId}
+    </select>
 </mapper>

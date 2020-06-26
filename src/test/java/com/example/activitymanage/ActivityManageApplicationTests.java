@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.activitymanage.enums.RecordTypeEnum;
+import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.mapper.PrizeMapper;
 import com.example.activitymanage.mapper.RecordMapper;
 import com.example.activitymanage.mapper.UserMapper;
@@ -18,6 +19,9 @@ import com.example.activitymanage.model.Record;
 
 @SpringBootTest
 class ActivityManageApplicationTests {
+
+    @Autowired
+    ActivityMapper activityMapper;
 
     @Autowired
     UserMapper userMapper;
@@ -62,5 +66,11 @@ class ActivityManageApplicationTests {
     @Test
     void test2() {
         System.out.println(recordMapper.getStatisticsByActId(8, "2020-06-26", "2020-06-27"));
+    }
+
+    @Test
+    void test3(){
+        System.out.println(new Date().toString());
+//        System.out.println(activityMapper.selectByPrimaryKey(8));
     }
 }
