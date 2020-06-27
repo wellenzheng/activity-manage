@@ -5,6 +5,7 @@ import com.example.activitymanage.common.CommonResponse;
 import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.User;
+import com.example.activitymanage.response.UserPrizeResponse;
 import com.example.activitymanage.response.WXLoginResponse;
 import com.example.activitymanage.service.*;
 import com.example.activitymanage.utils.HttpUtils;
@@ -121,7 +122,17 @@ public class UserController {
         WXLoginResponse wxLoginResponse=new WXLoginResponse();
         wxLoginResponse.setLeft_chance(leftChance);
         wxLoginResponse.setPrizeName(allPrizeName);
+        wxLoginResponse.setMyId(result);
+        wxLoginResponse.setActId(choosen.getId());
 
         return CommonResponse.success("小程序登录",wxLoginResponse);
+    }
+
+    @GetMapping("/prizeRecord")
+    @ApiOperation(value = "小程序用户中奖记录")
+    public CommonResponse<List<UserPrizeResponse>> personPrizeRecordInOneAct(@RequestParam("weChatId")String weChatId, @RequestParam("actId")Integer actId){
+
+        User user=userService.selectByWechatId(weChatId);
+        return CommonResponse.success("用户中奖记录",recordService.getPersonPrizeOneAct(user.getId(),actId));
     }
 }

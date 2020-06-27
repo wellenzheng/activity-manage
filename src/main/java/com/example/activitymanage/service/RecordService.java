@@ -2,6 +2,7 @@ package com.example.activitymanage.service;
 
 import java.util.List;
 
+import com.example.activitymanage.response.UserPrizeResponse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,9 @@ public class RecordService {
 
     public Integer countByUserAndAct(@Param("user_id")Integer user_id, @Param("act_id")Integer act_id){
         return recordMapper.countByUserAndAct(user_id,act_id);
+    }
+
+    public List<UserPrizeResponse> getPersonPrizeOneAct(Integer userId,Integer actId){
+        return recordMapper.getPersonPrizeOneAct(userId,actId);
     }
 }

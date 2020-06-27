@@ -21,6 +21,12 @@ import java.util.List;
 @ApiModel(value = "WXLoginResponse", description = "小程序登录返回结果")
 public class WXLoginResponse {
 
+    @ApiModelProperty("我的id")
+    private String myId;
+
+    @ApiModelProperty("活动id")
+    private Integer actId;
+
     @ApiModelProperty("剩余次数")
     private Integer left_chance;
 

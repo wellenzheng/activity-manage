@@ -2,6 +2,7 @@ package com.example.activitymanage.mapper;
 
 import java.util.List;
 
+import com.example.activitymanage.response.UserPrizeResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -29,4 +30,6 @@ public interface RecordMapper {
             @Param("endTime") String endTime);
 
     Integer countByUserAndAct(@Param("user_id")Integer user_id,@Param("act_id")Integer act_id);
+
+    List<UserPrizeResponse> getPersonPrizeOneAct(@Param("user_id") Integer userId,@Param("act_id") Integer actId);
 }
