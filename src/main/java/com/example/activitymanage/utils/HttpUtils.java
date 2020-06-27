@@ -1,17 +1,17 @@
 package com.example.activitymanage.utils;
 
+import java.io.IOException;
+import java.net.URI;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class HttpUtils {
     public static String doGet(String url, Map<String, String> param) {

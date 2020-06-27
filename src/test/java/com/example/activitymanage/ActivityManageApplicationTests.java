@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.activitymanage.enums.RecordTypeEnum;
 import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.mapper.PrizeMapper;
 import com.example.activitymanage.mapper.RecordMapper;
@@ -17,7 +16,6 @@ import com.example.activitymanage.mapper.StatisticsMapper;
 import com.example.activitymanage.mapper.UserMapper;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.Record;
-import com.example.activitymanage.model.Statistics;
 import com.example.activitymanage.service.RecordService;
 import com.example.activitymanage.utils.DateFormatUtils;
 
