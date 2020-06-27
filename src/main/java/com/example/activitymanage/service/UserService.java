@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.activitymanage.mapper.UserMapper;
 import com.example.activitymanage.model.User;
+import com.example.activitymanage.request.UserRequest;
 
 /**
  * @author zhengweijun <zhengweijun@kuaishou.com>
@@ -27,5 +28,12 @@ public class UserService {
         return userMapper.insert(user);
     }
 
-    public User selectByWechatId(String wechat_id){return userMapper.selectByWechatId(wechat_id);}
+    public User selectByWeChatId(String weChaId) {
+        return userMapper.selectByWeChatId(weChaId);
+    }
+
+    public Integer editUser(UserRequest userRequest) {
+        User user = User.convertFrom(userRequest);
+        return user == null ? null : userMapper.updateUser(user);
+    }
 }

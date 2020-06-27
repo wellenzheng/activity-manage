@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import com.example.activitymanage.model.User;
@@ -16,5 +17,7 @@ public interface UserMapper {
 
     List<User> selectAll();
 
-    User selectByWechatId(@Param("wechat_id") String wechat_id);
+    User selectByWeChatId(@Param("weChatId") String weChatId);
+
+    int updateUser(@Param("user") User user);
 }

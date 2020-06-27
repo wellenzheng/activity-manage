@@ -1,16 +1,16 @@
 package com.example.activitymanage.config;
 
 import java.io.PrintWriter;
-import com.example.activitymanage.common.CommonResponse;
-import com.example.activitymanage.model.AuthUser;
-import com.example.activitymanage.response.AuthUserResponse;
-import com.example.activitymanage.service.AuthUserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.example.activitymanage.common.CommonResponse;
 import com.example.activitymanage.model.AuthUser;
 import com.example.activitymanage.response.AuthUserResponse;
@@ -26,7 +27,6 @@ import com.example.activitymanage.service.AuthUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import java.io.PrintWriter;
 
 /**
  * @author zhengweijun <zhengweijun@kuaishou.com>

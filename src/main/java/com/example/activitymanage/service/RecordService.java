@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.activitymanage.enums.LimitTypeEnum;
+import com.example.activitymanage.enums.RecordTypeEnum;
 import com.example.activitymanage.enums.StatusEnum;
 import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.mapper.RecordMapper;
 import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.model.Prize;
+import com.example.activitymanage.model.Record;
 import com.example.activitymanage.model.User;
 import com.example.activitymanage.response.PrizeResponse;
 import com.example.activitymanage.response.StatisticsResponse;
@@ -71,7 +73,7 @@ public class RecordService {
         if (activity == null) {
             return null;
         }
-        User user = userService.selectByWechatId(weChatId);
+        User user = userService.selectByWeChatId(weChatId);
         Integer userId;
         if (user == null) {
             userId = userService.addUser(User.builder().weChatId(weChatId).build());
@@ -83,7 +85,7 @@ public class RecordService {
             return null;
         }
         Prize prize = generatePrize(actId);
-        if(prize.getIsLucky()==1){
+        if (prize.getIsLucky() == 1) {
             prizeService.incPrizeColNum(prize.getId());
         }
         recordMapper.insert(Record.builder()

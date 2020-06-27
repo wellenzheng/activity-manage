@@ -28,7 +28,7 @@ public class RecordController {
     private RecordService recordService;
 
     @ApiOperation(value = "getLottery", tags = "抽奖接口")
-    @GetMapping("/lottery")
+    @GetMapping("/getLottery")
     public CommonResponse<PrizeResponse> getLottery(
             @ApiParam(name = "weChatId", value = "weChatId") @RequestParam String weChatId,
             @ApiParam(name = "actId", value = "actId") @RequestParam Integer actId

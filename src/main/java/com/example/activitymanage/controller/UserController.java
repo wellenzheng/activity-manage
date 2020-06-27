@@ -1,41 +1,38 @@
 package com.example.activitymanage.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.activitymanage.common.CommonIdResponse;
-import com.example.activitymanage.common.CommonResponse;
-import com.example.activitymanage.model.User;
-import com.example.activitymanage.service.UserService;
 import com.example.activitymanage.common.CommonIdResponse;
 import com.example.activitymanage.common.CommonResponse;
 import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.User;
 import com.example.activitymanage.response.UserPrizeResponse;
+import com.example.activitymanage.request.UserRequest;
 import com.example.activitymanage.response.WXLoginResponse;
-import com.example.activitymanage.service.*;
+import com.example.activitymanage.service.ActivityService;
+import com.example.activitymanage.service.PrizeService;
+import com.example.activitymanage.service.RecordService;
+import com.example.activitymanage.service.UserService;
+import com.example.activitymanage.service.WXLoginService;
 import com.example.activitymanage.utils.HttpUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author zhengweijun <zhengweijun@kuaishou.com>
@@ -76,6 +73,15 @@ public class UserController {
         return CommonResponse.success("添加用户", CommonIdResponse.builder().userId(userService.addUser(user)).build());
     }
 
+    @PostMapping("/editUser")
+    @ApiOperation(value = "编辑用户信息")
+    public CommonResponse<CommonIdResponse> editUser(
+            @ApiParam(name = "userRequest", value = "用户信息") @RequestBody UserRequest userRequest
+    ) {
+        return CommonResponse.success("编辑用户信息", CommonIdResponse.builder()
+                .userId(userService.editUser(userRequest)).build());
+    }
+
     @GetMapping("/wxlogin")
     @ApiOperation(value = "小程序登录")
     public CommonResponse<WXLoginResponse> wxLogin(@RequestParam("code") String code) {
@@ -102,7 +108,7 @@ public class UserController {
         //
         //if无合适act
         //else
-        User user = userService.selectByWechatId(result);
+        User user = userService.selectByWeChatId(result);
         Integer leftChance = null;
         if (user == null) {
             user = new User();
@@ -145,7 +151,7 @@ public class UserController {
     @ApiOperation(value = "小程序用户中奖记录")
     public CommonResponse<List<UserPrizeResponse>> personPrizeRecordInOneAct(@RequestParam("weChatId")String weChatId, @RequestParam("actId")Integer actId){
 
-        User user=userService.selectByWechatId(weChatId);
+        User user=userService.selectByWeChatId(weChatId);
         return CommonResponse.success("用户中奖记录",recordService.getPersonPrizeOneAct(user.getId(),actId));
     }
 }
