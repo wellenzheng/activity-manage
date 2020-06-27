@@ -6,7 +6,7 @@
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="prize_id" jdbcType="INTEGER" property="prizeId"/>
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="date" jdbcType="TIMESTAMP" property="date"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -46,4 +46,8 @@
     group by record.date
     order by record.date
   </select>
+
+    <select id="countByUserAndAct" resultType="java.lang.Integer">
+        select count(*) from record where user_id=#{user_id,jdbcType=INTEGER} and activity_id=#{act_id,jdbcType=INTEGER}
+    </select>
 </mapper>

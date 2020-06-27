@@ -2,11 +2,11 @@ package com.example.activitymanage.controller;
 
 import com.example.activitymanage.common.CommonIdResponse;
 import com.example.activitymanage.common.CommonResponse;
+import com.example.activitymanage.model.Activity;
+import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.User;
-import com.example.activitymanage.service.ActivityService;
-import com.example.activitymanage.service.PrizeService;
-import com.example.activitymanage.service.UserService;
-import com.example.activitymanage.service.WXLoginService;
+import com.example.activitymanage.response.WXLoginResponse;
+import com.example.activitymanage.service.*;
 import com.example.activitymanage.utils.HttpUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,9 @@ public class UserController {
     private ActivityService activityService;
 
     @Autowired
+    private RecordService recordService;
+
+    @Autowired
     private PrizeService prizeService;
 
     @GetMapping("/getAllUsers")
@@ -58,7 +62,7 @@ public class UserController {
 
     @GetMapping("/wxlogin")
     @ApiOperation(value = "小程序登录")
-    public CommonResponse<String> wxLogin(@RequestParam("code") String code){
+    public CommonResponse<WXLoginResponse> wxLogin(@RequestParam("code") String code){
 
         Map<String, String> param=new HashMap<>();
         param.put("js_code", code);
@@ -70,18 +74,32 @@ public class UserController {
         JSONObject jsonRes=new JSONObject(result);
         result=jsonRes.get("openid").toString();
 
-        return CommonResponse.success("成功",result);
-//        List<Activity> allAct=activityService.getAllActivities();
-//        Activity choosen=null;
-//        for(Activity act:allAct){
-//            if(act.getStatus().equals("PUBLISHED")){
-//                choosen=act;
-//                break;
-//            }
-//        }
+//        return CommonResponse.success("成功",result);
+        List<Activity> allAct=activityService.getAllActivities();
+        Activity choosen=null;
+        for(Activity act:allAct){
+            if(act.getStatus().equals("PUBLISHED")){
+                choosen=act;
+                break;
+            }
+        }
 //
-//        //if无合适act
-//        //else
+        //if无合适act
+        //else
+        User user=userService.selectByWechatId(result);
+        Integer leftChance=null;
+        if(user==null){
+            user=new User();
+            user.setWeChatId(result);
+            userService.addUser(user);
+            leftChance=choosen.getLimitTimes();
+        }else{
+            leftChance=choosen.getLimitTimes()-recordService.countByUserAndAct(user.getId(),choosen.getId());
+        }
+
+
+
+
 //        UserAct userAct=userActService.selectByUserIdAndActId(result,choosen.getId());
 //
 //        if(userAct==null){
@@ -94,16 +112,16 @@ public class UserController {
 //            userActService.insert(userAct);
 //        }
 //
-//        List<Prize> allPrize=prizeService.selectByActId(choosen.getId());
-//        List<String> allPrizeName=new ArrayList<>();
-//        for(Prize prize:allPrize){
-//            allPrizeName.add(prize.getName());
-//        }
+        List<Prize> allPrize=prizeService.selectByActId(choosen.getId());
+        List<String> allPrizeName=new ArrayList<>();
+        for(Prize prize:allPrize){
+            allPrizeName.add(prize.getName());
+        }
 //
-//        WXLoginResponse wxLoginResponse=new WXLoginResponse();
-//        wxLoginResponse.setLeft_chance(userAct.getLeft_chance());
-//        wxLoginResponse.setPrizeName(allPrizeName);
-//
-//        return CommonResponse.success("小程序登录",wxLoginResponse);
+        WXLoginResponse wxLoginResponse=new WXLoginResponse();
+        wxLoginResponse.setLeft_chance(leftChance);
+        wxLoginResponse.setPrizeName(allPrizeName);
+
+        return CommonResponse.success("小程序登录",wxLoginResponse);
     }
 }

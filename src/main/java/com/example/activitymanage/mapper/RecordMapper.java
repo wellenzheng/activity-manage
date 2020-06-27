@@ -27,4 +27,6 @@ public interface RecordMapper {
 
     List<StatisticsResponse> getStatisticsByActId(@Param("actId") Integer actId, @Param("startTime") String startTime,
             @Param("endTime") String endTime);
+
+    Integer countByUserAndAct(@Param("user_id")Integer user_id,@Param("act_id")Integer act_id);
 }

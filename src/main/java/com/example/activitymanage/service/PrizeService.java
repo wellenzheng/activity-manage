@@ -27,6 +27,8 @@ public class PrizeService {
         prizeMapper.insertPrizeList(prizeList);
     }
 
+    public List<Prize> selectByActId(Integer actId){return prizeMapper.selectByActId(actId);}
+
     public List<PrizeResponse> getPrizeListByActId(Integer actId) {
         if (actId == null || actId <= 0) {
             return null;

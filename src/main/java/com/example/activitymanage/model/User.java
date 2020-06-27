@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private String id;
+    private Integer id;
 
-    private Integer weChatId;
+    private String weChatId;
 
     private String weChatName;
 

@@ -26,4 +26,6 @@ public class UserService {
     public Integer addUser(User user) {
         return userMapper.insert(user);
     }
+
+    public User selectByWechatId(String wechat_id){return userMapper.selectByWechatId(wechat_id);}
 }

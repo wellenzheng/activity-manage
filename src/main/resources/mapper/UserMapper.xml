@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.activitymanage.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.example.activitymanage.model.User">
-    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="wechat_id" jdbcType="INTEGER" property="weChatId" />
     <result column="wechat_name" jdbcType="VARCHAR" property="weChatName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -14,7 +14,7 @@
     insert into user (wechat_id, wechat_name, name, 
       phone, email, address
       )
-    values (#{weChatId,jdbcType=INTEGER}, #{weChatName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    values (#{weChatId,jdbcType=VARCHAR}, #{weChatName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
       )
   </insert>
@@ -24,6 +24,10 @@
   </select>
   <select id="selectByUsername" resultType="com.example.activitymanage.model.AuthUser">
 
+  </select>
+
+  <select id="selectByWechatId" resultMap="BaseResultMap">
+    select * from user where wechat_id=#{wechat_id,jdbcType=VARCHAR}
   </select>
 
 </mapper>
