@@ -14,7 +14,7 @@
     insert into user (wechat_id, wechat_name, name, 
       phone, email, address
       )
-    values (#{weChatId,jdbcType=INTEGER}, #{weChatName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    values (#{weChatId,jdbcType=VARCHAR}, #{weChatName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
       )
   </insert>
@@ -24,6 +24,10 @@
   </select>
   <select id="selectByUsername" resultType="com.example.activitymanage.model.AuthUser">
 
+  </select>
+
+  <select id="selectByWechatId" resultMap="BaseResultMap">
+    select * from user where wechat_id=#{wechat_id,jdbcType=VARCHAR}
   </select>
 
 </mapper>

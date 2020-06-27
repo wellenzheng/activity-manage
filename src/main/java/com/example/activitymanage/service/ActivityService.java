@@ -39,8 +39,8 @@ public class ActivityService {
         ActivityResponse activityResponse = Activity.convertTo(activity);
         activityResponse.setPrizes(prizeService.getPrizeListByActId(activity.getId()));
         activityResponse.setStatistics(
-                recordService.getStatisticsByActId(activity.getId(), "2020-06-26",
-                        "2020-07-01"));
+                recordService.getStatisticsByActId(activity.getId(), activity.getStartTime(),
+                        activity.getEndTime()));
         return activityResponse;
     }
 

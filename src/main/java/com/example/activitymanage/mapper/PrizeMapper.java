@@ -24,4 +24,6 @@ public interface PrizeMapper {
     void insertPrizeList(@Param("prizeList") List<Prize> prizeList);
 
     List<Prize> selectByActId(@Param("actId") Integer actId);
+
+    int updatePrizeColNum(@Param("id") Integer id);
 }

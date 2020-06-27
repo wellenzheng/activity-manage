@@ -70,7 +70,6 @@
 
         <table tableName="user" domainObjectName="User">
             <property name="useActualColumnNames" value="false"/>
-            <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 
     </context>

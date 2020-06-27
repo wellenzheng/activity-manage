@@ -74,8 +74,8 @@ create table user
 (
     id          int auto_increment comment '用户id'
         primary key,
-    wechat_id   int          not null comment '微信号',
-    wechat_name varchar(255) not null comment '微信名',
+    wechat_id   varchar(255)          not null comment '微信号',
+    wechat_name varchar(255) null comment '微信名',
     name        varchar(255) null comment '真实姓名',
     phone       varchar(13)  null comment '电话号码',
     email       varchar(255) null comment '电子邮箱',

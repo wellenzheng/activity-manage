@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class User {
     private Integer id;
 
-    private Integer weChatId;
+    private String weChatId;
 
     private String weChatName;
 
