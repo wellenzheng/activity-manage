@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.activitymanage.model.Record;
 import com.example.activitymanage.response.StatisticsResponse;
-import com.sun.org.apache.regexp.internal.RE;
 
 import io.swagger.models.auth.In;
 
