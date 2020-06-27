@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.activitymanage.model.User;
-import com.example.activitymanage.service.UserService;
 import com.example.activitymanage.common.CommonIdResponse;
 import com.example.activitymanage.common.CommonResponse;
+import com.example.activitymanage.model.User;
+import com.example.activitymanage.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

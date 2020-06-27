@@ -4,14 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import com.example.activitymanage.model.Record;
 import com.example.activitymanage.response.StatisticsResponse;
-import com.sun.org.apache.regexp.internal.RE;
-
-import io.swagger.models.auth.In;
 
 @Repository
 @Mapper

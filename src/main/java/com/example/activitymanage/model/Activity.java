@@ -1,16 +1,12 @@
 package com.example.activitymanage.model;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import com.example.activitymanage.enums.ActivityTypeEnum;
 import com.example.activitymanage.enums.StatusEnum;
 import com.example.activitymanage.request.ActivityRequest;
-import com.example.activitymanage.request.PrizeRequest;
 import com.example.activitymanage.response.ActivityResponse;
 
 import lombok.AllArgsConstructor;

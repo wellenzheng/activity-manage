@@ -10,8 +10,6 @@ import com.example.activitymanage.mapper.PrizeMapper;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.response.PrizeResponse;
 
-import io.swagger.models.auth.In;
-
 /**
  * @author zhengweijun <zhengweijun@kuaishou.com>
  * Created on 2020-06-14
