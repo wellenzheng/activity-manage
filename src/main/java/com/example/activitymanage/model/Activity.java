@@ -4,14 +4,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import com.example.activitymanage.enums.ActivityTypeEnum;
 import com.example.activitymanage.enums.StatusEnum;
 import com.example.activitymanage.request.ActivityRequest;
-import com.example.activitymanage.request.PrizeRequest;
 import com.example.activitymanage.response.ActivityResponse;
+import com.example.activitymanage.utils.DateFormatUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,7 +49,6 @@ public class Activity {
         if (request == null) {
             return null;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<Date> actDateTime = request.getActDateTime();
         Date startTime = actDateTime.get(0);
         Date endTime = actDateTime.get(1);
@@ -62,8 +59,8 @@ public class Activity {
                 .limitTimes(request.getLimitTimes())
                 .status(request.getActStatus() == null ? StatusEnum.UNPUBLISHED.name() : request.getActStatus())
                 .createTime(new Date())
-                .startTime(dateFormat.format(startTime))
-                .endTime(dateFormat.format(endTime))
+                .startTime(DateFormatUtils.get0Clock(startTime))
+                .endTime(DateFormatUtils.get24Clock(endTime))
                 .creator(request.getCreator())
                 .description(request.getActDesc())
                 .virtualPars(request.getVirtualPars())

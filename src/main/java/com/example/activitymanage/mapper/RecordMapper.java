@@ -1,17 +1,15 @@
 package com.example.activitymanage.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.activitymanage.response.UserPrizeResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import com.example.activitymanage.model.Record;
 import com.example.activitymanage.response.StatisticsResponse;
-
-import io.swagger.models.auth.In;
 
 @Repository
 @Mapper
@@ -32,4 +30,8 @@ public interface RecordMapper {
     Integer countByUserAndAct(@Param("user_id")Integer user_id,@Param("act_id")Integer act_id);
 
     List<UserPrizeResponse> getPersonPrizeOneAct(@Param("user_id") Integer userId,@Param("act_id") Integer actId);
+
+    Integer countByUserAndAct(@Param("userId") Integer userId, @Param("actId") Integer actId,
+            @Param("startTime") String startTime, @Param("endTime") String endTime);
+
 }

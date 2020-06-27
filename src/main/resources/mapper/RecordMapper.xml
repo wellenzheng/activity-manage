@@ -48,7 +48,10 @@
   </select>
 
     <select id="countByUserAndAct" resultType="java.lang.Integer">
-        select count(*) from record where user_id=#{user_id,jdbcType=INTEGER} and activity_id=#{act_id,jdbcType=INTEGER}
+        select count(id)
+        from record
+        where user_id=#{userId} and activity_id=#{actId}
+                and record.date between #{startTime} and #{endTime}
     </select>
 
     <select id="getPersonPrizeOneAct" resultType="com.example.activitymanage.response.UserPrizeResponse">

@@ -16,5 +16,5 @@ public interface UserMapper {
 
     List<User> selectAll();
 
-    User selectByWechatId(@Param("wechat_id")String wechat_id);
+    User selectByWechatId(@Param("wechat_id") String wechat_id);
 }

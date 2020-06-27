@@ -22,5 +22,5 @@ public class Record {
 
     private Integer userId;
 
-    private Date date;
+    private String date;
 }

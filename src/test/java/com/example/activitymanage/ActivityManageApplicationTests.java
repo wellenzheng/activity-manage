@@ -1,21 +1,25 @@
 package com.example.activitymanage;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.activitymanage.enums.RecordTypeEnum;
 import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.mapper.PrizeMapper;
 import com.example.activitymanage.mapper.RecordMapper;
+import com.example.activitymanage.mapper.StatisticsMapper;
 import com.example.activitymanage.mapper.UserMapper;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.Record;
+import com.example.activitymanage.model.Statistics;
+import com.example.activitymanage.service.RecordService;
+import com.example.activitymanage.utils.DateFormatUtils;
 
 @SpringBootTest
 class ActivityManageApplicationTests {
@@ -31,6 +35,12 @@ class ActivityManageApplicationTests {
 
     @Autowired
     RecordMapper recordMapper;
+
+    @Autowired
+    RecordService recordService;
+
+    @Autowired
+    StatisticsMapper statisticsMapper;
 
     @Test
     void contextLoads() {
@@ -52,25 +62,24 @@ class ActivityManageApplicationTests {
 
     @Test
     void text1() {
-        for (int i = 0; i < 10; i++) {
-            recordMapper.insert(Record.builder()
-                    .activityId(i)
-                    .type(RecordTypeEnum.LUCKYDIP.name())
-                    .prizeId(i)
-                    .userId(i)
-                    .date(new Date())
-                    .build());
-        }
+        recordMapper.insert(Record.builder()
+                .userId(1)
+                .activityId(1)
+                .type("1")
+                .prizeId(1)
+                .date(DateFormatUtils.get12Clock(new Date()))
+                .build());
     }
 
     @Test
     void test2() {
-        System.out.println(recordMapper.getStatisticsByActId(8, "2020-06-26", "2020-06-27"));
+        prizeMapper.updatePrizeColNum(16);
     }
 
     @Test
-    void test3(){
-        System.out.println(new Date().toString());
-//        System.out.println(activityMapper.selectByPrimaryKey(8));
+    void test3() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2020, Calendar.SEPTEMBER, 10);
+        System.out.println(DateFormatUtils.get0Clock(calendar.getTime()));
     }
 }

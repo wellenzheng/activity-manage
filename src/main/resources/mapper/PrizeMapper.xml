@@ -68,4 +68,10 @@
         from prize
         where activity_id=#{actId}
     </select>
+
+    <update id="updatePrizeColNum" useGeneratedKeys="true" keyProperty="id">
+        update prize
+        set collected_number = collected_number + 1
+        where prize.id = #{id} and prize.collected_number &lt;= prize.total_number
+    </update>
 </mapper>

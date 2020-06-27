@@ -1,5 +1,6 @@
 package com.example.activitymanage.config;
 
+import java.io.PrintWriter;
 import com.example.activitymanage.common.CommonResponse;
 import com.example.activitymanage.model.AuthUser;
 import com.example.activitymanage.response.AuthUserResponse;
@@ -18,7 +19,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.activitymanage.common.CommonResponse;
+import com.example.activitymanage.model.AuthUser;
+import com.example.activitymanage.response.AuthUserResponse;
+import com.example.activitymanage.service.AuthUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
 import java.io.PrintWriter;
 
 /**
@@ -63,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

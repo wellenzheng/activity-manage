@@ -1,16 +1,13 @@
 package com.example.activitymanage.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.model.Activity;
-import com.example.activitymanage.model.AuthUser;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.request.ActivityRequest;
 import com.example.activitymanage.request.PrizeRequest;
@@ -42,8 +39,8 @@ public class ActivityService {
         ActivityResponse activityResponse = Activity.convertTo(activity);
         activityResponse.setPrizes(prizeService.getPrizeListByActId(activity.getId()));
         activityResponse.setStatistics(
-                recordService.getStatisticsByActId(activity.getId(), "2020-06-26",
-                        "2020-07-01"));
+                recordService.getStatisticsByActId(activity.getId(), activity.getStartTime(),
+                        activity.getEndTime()));
         return activityResponse;
     }
 
