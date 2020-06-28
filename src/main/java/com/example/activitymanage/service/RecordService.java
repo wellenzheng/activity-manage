@@ -141,6 +141,9 @@ public class RecordService {
             return null;
         }
         Prize prize = generatePrize(actId);
+        if (prize == null) {
+            return null;
+        }
         if (prize.getIsLucky() == 1) {
             prizeService.incPrizeColNum(prize.getId());
         }
@@ -150,18 +153,16 @@ public class RecordService {
                 .prizeId(prize.getId())
                 .userId(userId)
                 .date(DateFormatUtils.get12Clock(new Date()))
+                .isLucky(prize.getIsLucky())
                 .build());
-        return PrizeResponse.builder()
-                .id(prize.getId())
-                .prizeName(prize.getName())
-                .prizeRank(prize.getRanking())
-                .totalNumber(prize.getTotalNumber())
-                .collectedNumber(prize.getCollectedNumber())
-                .build();
+        return Prize.convertTo(prize);
     }
 
     private Prize generatePrize(Integer actId) {
         List<Prize> prizeList = prizeService.selectByActId(actId);
+        if (prizeList == null || prizeList.size() == 0) {
+            return null;
+        }
         List<Double> proList = new ArrayList<>();
         AtomicReference<Double> sum = new AtomicReference<>((double) 0);
         AtomicReference<Prize> nonPrize = new AtomicReference<>();
