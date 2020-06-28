@@ -108,4 +108,11 @@ public class ActivityService {
         activityResponse.setStatistics(statistics);
         return activityResponse;
     }
+
+    public Integer deleteById(Integer id) {
+        if (id == null || id <= 0) {
+            return null;
+        }
+        return activityMapper.deleteByPrimaryKey(id);
+    }
 }

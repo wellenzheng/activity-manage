@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -71,5 +72,14 @@ public class ActivityController {
     ) {
         return CommonResponse.success("根据id编辑活动",
                 CommonIdResponse.builder().activityId(activityService.editActivityById(id, activityRequest)).build());
+    }
+
+    @DeleteMapping("/deleteById")
+    @ApiOperation(value = "删除活动")
+    public CommonResponse<CommonIdResponse> deleteActivityById(
+            @ApiParam(name = "id", value = "活动id") @RequestParam Integer id
+    ) {
+        return CommonResponse
+                .success("根据id删除活动", CommonIdResponse.builder().activityId(activityService.deleteById(id)).build());
     }
 }
