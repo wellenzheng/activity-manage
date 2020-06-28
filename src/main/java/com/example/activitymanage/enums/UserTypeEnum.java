@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public enum UserTypeEnum {
 
-    WECHAT("微信用"),
+    WECHAT("微信用户"),
     SEEWO("希沃用户");
 
     private String desc;

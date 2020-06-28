@@ -70,7 +70,9 @@
     <select id="getRecordByActIdOrUserId" resultMap="BaseResultMap">
         select *
         from record
-        where
+        <if test="actId!=null or userId!=null">
+            where
+        </if>
         <if test="actId!=null and actId!=''">
             activity_id = #{actId}
         </if>

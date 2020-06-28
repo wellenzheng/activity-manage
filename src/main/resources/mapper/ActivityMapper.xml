@@ -30,7 +30,7 @@
     values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
       #{userType,jdbcType=VARCHAR}, #{limitType,jdbcType=VARCHAR}, #{limitTimes,jdbcType=INTEGER},
       #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{startTime,jdbcType=TIMESTAMP},
-      #{endTime,jdbcType=TIMESTAMP}, #{virtualPars} #{description,jdbcType=LONGVARCHAR})
+      #{endTime,jdbcType=TIMESTAMP}, #{virtualPars}, #{description,jdbcType=LONGVARCHAR})
   </insert>
 
     <update id="updateById" parameterType="com.example.activitymanage.model.Activity">
