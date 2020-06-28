@@ -25,10 +25,15 @@ public enum ActivityTypeEnum {
     }
 
     private static final Map<String, ActivityTypeEnum> MAP = Arrays.stream(values())
-            .collect(Collectors.toMap(ActivityTypeEnum::name, Function.identity(), (o, n) -> o));
+            .collect(Collectors.toMap(ActivityTypeEnum::name,
+                    Function.identity(), (o, n) -> o));
 
     public static ActivityTypeEnum ofName(String name) {
         return MAP.get(name);
+    }
+
+    public static String getName(ActivityTypeEnum option) {
+        return option == null ? null : option.name();
     }
 
     public static String getDescByName(String name) {

@@ -1,5 +1,6 @@
 package com.example.activitymanage.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,28 +8,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.example.activitymanage.enums.RecordTypeEnum;
-import com.example.activitymanage.enums.StatisticsTypeEnum;
-import com.example.activitymanage.model.Record;
-import com.example.activitymanage.model.Statistics;
-import com.example.activitymanage.response.RecordResponse;
-import com.example.activitymanage.response.UserPrizeResponse;
-
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.activitymanage.enums.LimitTypeEnum;
 import com.example.activitymanage.enums.RecordTypeEnum;
+import com.example.activitymanage.enums.StatisticsTypeEnum;
 import com.example.activitymanage.enums.StatusEnum;
 import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.mapper.RecordMapper;
 import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.Record;
+import com.example.activitymanage.model.Statistics;
 import com.example.activitymanage.model.User;
 import com.example.activitymanage.response.PrizeResponse;
-import com.example.activitymanage.response.StatisticsResponse;
+import com.example.activitymanage.response.RecordResponse;
+import com.example.activitymanage.response.UserPrizeResponse;
 import com.example.activitymanage.utils.DateFormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -126,9 +122,11 @@ public class RecordService {
         }
     }
 
-    public PrizeResponse getLottery(String weChatId, Integer actId) {
+    public PrizeResponse getLottery(String weChatId, Integer actId) throws ParseException {
+        activityMapper.updateActivityStatus();
         Activity activity = activityMapper.selectByPrimaryKey(actId);
-        if (activity == null) {
+        if (activity == null || activity.getStatus().equals(StatusEnum.UNPUBLISHED.name()) ||
+                activity.getStatus().equals(StatusEnum.FINISHED.name())) {
             return null;
         }
         User user = userService.selectByWeChatId(weChatId);

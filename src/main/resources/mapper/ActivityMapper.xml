@@ -90,7 +90,8 @@
 
     <update id="updateActivityStatus">
         update activity
-        set status=#{status}
-        where id=#{id}
+        set status = case
+        when NOW() &gt; end_time then 'FINISHED'
+        when NOW() &gt; start_time then 'PUBLISHED' else 'UNPUBLISHED' end
     </update>
 </mapper>

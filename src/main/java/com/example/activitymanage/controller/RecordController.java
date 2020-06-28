@@ -1,5 +1,6 @@
 package com.example.activitymanage.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class RecordController {
     public CommonResponse<PrizeResponse> getLottery(
             @ApiParam(name = "weChatId", value = "weChatId") @RequestParam String weChatId,
             @ApiParam(name = "actId", value = "actId") @RequestParam Integer actId
-    ) {
+    ) throws ParseException {
         return CommonResponse.success("抽奖接口", recordService.getLottery(weChatId, actId));
     }
 

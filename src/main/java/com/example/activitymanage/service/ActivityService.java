@@ -17,7 +17,6 @@ import com.example.activitymanage.model.Statistics;
 import com.example.activitymanage.request.ActivityRequest;
 import com.example.activitymanage.request.PrizeRequest;
 import com.example.activitymanage.response.ActivityResponse;
-import com.example.activitymanage.response.StatisticsResponse;
 import com.example.activitymanage.utils.DateFormatUtils;
 
 /**
@@ -38,6 +37,7 @@ public class ActivityService {
     private RecordService recordService;
 
     public List<ActivityResponse> getAllActivities() {
+        activityMapper.updateActivityStatus();
         List<Activity> activityList = activityMapper.selectAll();
         if (activityList == null || activityList.size() == 0) {
             return null;
@@ -54,6 +54,7 @@ public class ActivityService {
     }
 
     public ActivityResponse getActivityById(Integer id) throws ParseException {
+        activityMapper.updateActivityStatus();
         Activity activity = activityMapper.selectByPrimaryKey(id);
         return activity == null ? null : convert(activity);
     }
@@ -73,26 +74,6 @@ public class ActivityService {
             prizeService.addPrizeList(prizeList);
         }
         return activity.getId();
-    }
-
-    public Integer updateActivityStatus(Integer id) throws ParseException {
-        if (id == null || id <= 0) {
-            return null;
-        }
-        Activity activity = activityMapper.selectByPrimaryKey(id);
-        if (activity == null) {
-            return null;
-        }
-        if (activity.getStatus().equals(StatusEnum.UNPUBLISHED.name())) {
-            if (DateFormatUtils.fromString(activity.getStartTime()).before(new Date())) {
-                return activityMapper.updateActivityStatus(id, StatusEnum.PUBLISHED.name());
-            }
-        } else if (activity.getStatus().equals(StatusEnum.PUBLISHED.name())) {
-            if (DateFormatUtils.fromString(activity.getEndTime()).before(new Date())) {
-                return activityMapper.updateActivityStatus(id, StatusEnum.FINISHED.name());
-            }
-        }
-        return null;
     }
 
     public Integer editActivityById(Integer id, ActivityRequest activityRequest) {

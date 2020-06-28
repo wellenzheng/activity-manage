@@ -1,11 +1,9 @@
 package com.example.activitymanage.response;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.example.activitymanage.model.Statistics;
-import com.example.activitymanage.request.PrizeRequest;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

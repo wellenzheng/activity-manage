@@ -2,15 +2,13 @@ package com.example.activitymanage.mapper;
 
 import java.util.List;
 
-import com.example.activitymanage.model.Statistics;
-import com.example.activitymanage.response.UserPrizeResponse;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.activitymanage.model.Record;
-import com.example.activitymanage.response.StatisticsResponse;
+import com.example.activitymanage.model.Statistics;
+import com.example.activitymanage.response.UserPrizeResponse;
 
 @Repository
 @Mapper

@@ -76,7 +76,7 @@ class ActivityManageApplicationTests {
 
     @Test
     void test2() throws ParseException {
-        System.out.println(DateFormatUtils.getClock(new Date()));
+        activityMapper.updateActivityStatus();
     }
 
     @Test

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.activitymanage.common.CommonIdResponse;
 import com.example.activitymanage.common.CommonResponse;
-import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.request.ActivityRequest;
 import com.example.activitymanage.response.ActivityResponse;
 import com.example.activitymanage.service.ActivityService;

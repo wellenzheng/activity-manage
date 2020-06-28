@@ -21,5 +21,5 @@ public interface ActivityMapper {
 
     int updateById(@Param("id") Integer id, @Param("act") Activity act);
 
-    int updateActivityStatus(@Param("id") Integer id, @Param("status") String status);
+    void updateActivityStatus();
 }
