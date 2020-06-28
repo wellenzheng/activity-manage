@@ -51,13 +51,13 @@ public class RecordService {
     private ActivityMapper activityMapper;
 
     public List<RecordResponse> getRecordByActIdOrUserId(Integer actId, Integer userId) {
-        if ((actId == null || actId <= 0) && (userId == null || userId <= 0)) {
-            return null;
-        }
         List<Record> recordList = recordMapper.getRecordByActIdOrUserId(actId, userId);
         List<RecordResponse> responseList = new ArrayList<>(recordList.size());
         recordList.forEach(record -> {
-            responseList.add(convert(record));
+            RecordResponse convert = convert(record);
+            if (convert != null) {
+                responseList.add(convert);
+            }
         });
         return responseList;
     }
@@ -71,10 +71,12 @@ public class RecordService {
         List<Statistics> unluckyList = new ArrayList<>();
         List<Statistics> allList = new ArrayList<>();
         statisticsList.forEach(statistics -> {
-            if (statistics.getIsLucky() == 1) {
-                luckyList.add(statistics);
-            } else {
-                unluckyList.add(statistics);
+            if (statistics != null) {
+                if (statistics.getIsLucky() == 1) {
+                    luckyList.add(statistics);
+                } else {
+                    unluckyList.add(statistics);
+                }
             }
         });
         int i = 0, j = 0;
@@ -202,10 +204,14 @@ public class RecordService {
     }
 
     private RecordResponse convert(Record record) {
-        return record == null ? null : RecordResponse.builder()
+        if (record == null) {
+            return null;
+        }
+        Activity activity = activityMapper.selectByPrimaryKey(record.getActivityId());
+        return RecordResponse.builder()
                 .id(record.getId())
                 .type(record.getType())
-                .activityName(activityMapper.selectByPrimaryKey(record.getActivityId()).getName())
+                .activityName(activity != null ? activity.getName() : "不知道")
                 .prize(prizeService.getPrizeById(record.getPrizeId()))
                 .user(userService.getUserById(record.getUserId()))
                 .date(record.getDate())

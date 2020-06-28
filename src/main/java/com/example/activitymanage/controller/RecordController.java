@@ -51,7 +51,7 @@ public class RecordController {
             @ApiParam(name = "actId", value = "活动id") @RequestParam(required = false) Integer actId,
             @ApiParam(name = "weChatId", value = "微信id") @RequestParam(required = false) String weChatId
     ) {
-        User user = userService.selectByWeChatId(weChatId);
+        User user = userService.selectByWeChatId("ofH-b5RjoWtBs5AU_eJLLDJil7VA");
         return user == null ? CommonResponse.success("根据活动id或微信id获取记录", null) :
                CommonResponse.success("根据活动id或微信id获取记录",
                        recordService.getRecordByActIdOrUserId(actId, user.getId()));

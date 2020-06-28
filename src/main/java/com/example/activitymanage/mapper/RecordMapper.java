@@ -35,5 +35,5 @@ public interface RecordMapper {
     Integer countByUserAndAct(@Param("userId") Integer userId, @Param("actId") Integer actId,
             @Param("startTime") String startTime, @Param("endTime") String endTime);
 
-    List<Record> getRecordByActIdOrUserId(Integer actId, Integer userId);
+    List<Record> getRecordByActIdOrUserId(@Param("actId") Integer actId, @Param("userId") Integer userId);
 }
