@@ -1,5 +1,7 @@
 package com.example.activitymanage.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.activitymanage.common.CommonResponse;
+import com.example.activitymanage.model.User;
 import com.example.activitymanage.response.PrizeResponse;
+import com.example.activitymanage.response.RecordResponse;
 import com.example.activitymanage.service.RecordService;
+import com.example.activitymanage.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +32,9 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "getLottery", tags = "抽奖接口")
     @GetMapping("/getLottery")
     public CommonResponse<PrizeResponse> getLottery(
@@ -34,5 +42,17 @@ public class RecordController {
             @ApiParam(name = "actId", value = "actId") @RequestParam Integer actId
     ) {
         return CommonResponse.success("抽奖接口", recordService.getLottery(weChatId, actId));
+    }
+
+    @ApiOperation(value = "", tags = "")
+    @GetMapping("/getRecord")
+    public CommonResponse<List<RecordResponse>> getRecordByActIdOrUserId(
+            @ApiParam(name = "actId", value = "活动id") @RequestParam(required = false) Integer actId,
+            @ApiParam(name = "weChatId", value = "微信id") @RequestParam(required = false) String weChatId
+    ) {
+        User user = userService.selectByWeChatId(weChatId);
+        return user == null ? CommonResponse.success("根据活动id或微信id获取记录", null) :
+               CommonResponse.success("根据活动id或微信id获取记录",
+                       recordService.getRecordByActIdOrUserId(actId, user.getId()));
     }
 }

@@ -24,6 +24,10 @@
     from user
   </select>
 
+    <select id="selectById" resultMap="BaseResultMap">
+        select * from user where id=#{id}
+    </select>
+
     <select id="selectByWeChatId" resultMap="BaseResultMap">
     select * from user where wechat_id=#{weChatId,jdbcType=VARCHAR}
   </select>

@@ -21,6 +21,10 @@ public class DateFormatUtils {
         return dateFormat.parse(s);
     }
 
+    public static String getClock(Date date) {
+        return dateFormat.format(date);
+    }
+
     public static String get0Clock(Date date) {
         calendar.setTime(date);
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),

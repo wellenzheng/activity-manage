@@ -20,4 +20,6 @@ public interface UserMapper {
     User selectByWeChatId(@Param("weChatId") String weChatId);
 
     int updateUser(@Param("user") User user);
+
+    User selectById(@Param("id") Integer id);
 }

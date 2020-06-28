@@ -1,10 +1,13 @@
 package com.example.activitymanage.model;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
 import com.example.activitymanage.enums.ActivityTypeEnum;
+import com.example.activitymanage.enums.LimitTypeEnum;
 import com.example.activitymanage.enums.StatusEnum;
+import com.example.activitymanage.enums.UserTypeEnum;
 import com.example.activitymanage.request.ActivityRequest;
 import com.example.activitymanage.response.ActivityResponse;
 import com.example.activitymanage.utils.DateFormatUtils;
@@ -27,13 +30,15 @@ public class Activity {
 
     private String status;
 
+    private String userType;
+
     private String limitType;
 
     private Integer limitTimes;
 
     private String creator;
 
-    private Date createTime;
+    private String createTime;
 
     private String startTime;
 
@@ -56,7 +61,8 @@ public class Activity {
                 .limitType(request.getLimitTypeRadio())
                 .limitTimes(request.getLimitTimes())
                 .status(request.getActStatus() == null ? StatusEnum.UNPUBLISHED.name() : request.getActStatus())
-                .createTime(new Date())
+                .userType(request.getUserTypeRadio())
+                .createTime(DateFormatUtils.getClock(new Date()))
                 .startTime(DateFormatUtils.get0Clock(startTime))
                 .endTime(DateFormatUtils.get24Clock(endTime))
                 .creator(request.getCreator())
@@ -65,15 +71,21 @@ public class Activity {
                 .build();
     }
 
-    public static ActivityResponse convertTo(Activity activity) {
+    public static ActivityResponse convertTo(Activity activity) throws ParseException {
         return activity == null ? null : ActivityResponse.builder()
                 .actId(activity.getId())
                 .actName(activity.getName())
                 .actType(ActivityTypeEnum.getDescByName(activity.getType()))
                 .actStatus(StatusEnum.getDescByName(activity.getStatus()))
-                .partNumber(activity.getVirtualPars())
+                .userTypeRadio(UserTypeEnum.getDescByName(activity.getUserType()))
                 .createTime(activity.getCreateTime())
                 .creator(activity.getCreator())
+                .actStartTime(activity.getStartTime())
+                .actEndTime(activity.getEndTime())
+                .actDesc(activity.getDescription())
+                .limitTypeRadio(LimitTypeEnum.getDescByName(activity.getLimitType()))
+                .limitTimes(activity.getLimitTimes())
+                .virtualPars(activity.getVirtualPars())
                 .build();
     }
 }

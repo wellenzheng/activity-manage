@@ -1,17 +1,24 @@
 package com.example.activitymanage.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.activitymanage.enums.StatusEnum;
 import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.model.Prize;
+import com.example.activitymanage.model.Statistics;
 import com.example.activitymanage.request.ActivityRequest;
 import com.example.activitymanage.request.PrizeRequest;
 import com.example.activitymanage.response.ActivityResponse;
+import com.example.activitymanage.response.StatisticsResponse;
+import com.example.activitymanage.utils.DateFormatUtils;
 
 /**
  * @author zhengweijun <zhengweijun@kuaishou.com>
@@ -30,23 +37,30 @@ public class ActivityService {
     @Autowired
     private RecordService recordService;
 
-    public List<Activity> getAllActivities() {
-        return activityMapper.selectAll();
+    public List<ActivityResponse> getAllActivities() {
+        List<Activity> activityList = activityMapper.selectAll();
+        if (activityList == null || activityList.size() == 0) {
+            return null;
+        }
+        List<ActivityResponse> activityResponseList = new ArrayList<>(activityList.size());
+        activityList.forEach(activity -> {
+            try {
+                activityResponseList.add(convert(activity));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        return activityResponseList;
     }
 
-    public ActivityResponse getActivityById(Integer id) {
+    public ActivityResponse getActivityById(Integer id) throws ParseException {
         Activity activity = activityMapper.selectByPrimaryKey(id);
-        ActivityResponse activityResponse = Activity.convertTo(activity);
-        activityResponse.setPrizes(prizeService.getPrizeListByActId(activity.getId()));
-        activityResponse.setStatistics(
-                recordService.getStatisticsByActId(activity.getId(), activity.getStartTime(),
-                        activity.getEndTime()));
-        return activityResponse;
+        return activity == null ? null : convert(activity);
     }
 
     public Integer addActivity(ActivityRequest activityRequest) {
         if (activityRequest == null) {
-            return -1;
+            return null;
         }
         Activity activity = Activity.convertFrom(activityRequest);
         activityMapper.insert(activity);
@@ -61,7 +75,37 @@ public class ActivityService {
         return activity.getId();
     }
 
+    public Integer updateActivityStatus(Integer id) throws ParseException {
+        if (id == null || id <= 0) {
+            return null;
+        }
+        Activity activity = activityMapper.selectByPrimaryKey(id);
+        if (activity == null) {
+            return null;
+        }
+        if (activity.getStatus().equals(StatusEnum.UNPUBLISHED.name())) {
+            if (DateFormatUtils.fromString(activity.getStartTime()).before(new Date())) {
+                return activityMapper.updateActivityStatus(id, StatusEnum.PUBLISHED.name());
+            }
+        } else if (activity.getStatus().equals(StatusEnum.PUBLISHED.name())) {
+            if (DateFormatUtils.fromString(activity.getEndTime()).before(new Date())) {
+                return activityMapper.updateActivityStatus(id, StatusEnum.FINISHED.name());
+            }
+        }
+        return null;
+    }
+
     public Integer editActivityById(Integer id, ActivityRequest activityRequest) {
-        return id;
+        return activityMapper.updateById(id, Activity.convertFrom(activityRequest)) > 0 ? id : null;
+    }
+
+    private ActivityResponse convert(Activity activity) throws ParseException {
+        ActivityResponse activityResponse = Activity.convertTo(activity);
+        Map<String, List<Statistics>> statistics =
+                recordService.getStatisticsByActId(activity.getId(), activity.getStartTime(), activity.getEndTime());
+        activityResponse.setPartNumber(recordService.getCountByActId(activity.getId()));
+        activityResponse.setPrizes(prizeService.getPrizeListByActId(activity.getId()));
+        activityResponse.setStatistics(statistics);
+        return activityResponse;
     }
 }

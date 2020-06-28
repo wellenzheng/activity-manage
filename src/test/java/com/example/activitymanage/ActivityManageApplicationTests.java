@@ -1,5 +1,6 @@
 package com.example.activitymanage;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +17,7 @@ import com.example.activitymanage.mapper.StatisticsMapper;
 import com.example.activitymanage.mapper.UserMapper;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.Record;
+import com.example.activitymanage.service.ActivityService;
 import com.example.activitymanage.service.RecordService;
 import com.example.activitymanage.utils.DateFormatUtils;
 
@@ -27,6 +29,9 @@ class ActivityManageApplicationTests {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    ActivityService activityService;
 
     @Autowired
     PrizeMapper prizeMapper;
@@ -70,8 +75,8 @@ class ActivityManageApplicationTests {
     }
 
     @Test
-    void test2() {
-        prizeMapper.updatePrizeColNum(16);
+    void test2() throws ParseException {
+        System.out.println(DateFormatUtils.getClock(new Date()));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.example.activitymanage.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "AuthUserResponse", description = "管理员信息详情")
+@ApiModel(value = "PrizeResponse", description = "奖品信息")
 public class PrizeResponse {
 
     @ApiModelProperty("主键id")
@@ -27,6 +28,9 @@ public class PrizeResponse {
 
     @ApiModelProperty("奖品等级")
     private String prizeRank;
+
+    @ApiModelProperty("是否中奖")
+    private Integer isLucky;
 
     @ApiModelProperty("奖品总数")
     private Integer totalNumber;

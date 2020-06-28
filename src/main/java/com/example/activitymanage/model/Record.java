@@ -20,5 +20,7 @@ public class Record {
 
     private Integer userId;
 
+    private Integer isLucky;
+
     private String date;
 }

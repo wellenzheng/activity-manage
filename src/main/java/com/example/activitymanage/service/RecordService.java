@@ -2,12 +2,18 @@ package com.example.activitymanage.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.example.activitymanage.enums.RecordTypeEnum;
+import com.example.activitymanage.enums.StatisticsTypeEnum;
 import com.example.activitymanage.model.Record;
+import com.example.activitymanage.model.Statistics;
+import com.example.activitymanage.response.RecordResponse;
 import com.example.activitymanage.response.UserPrizeResponse;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,8 +54,60 @@ public class RecordService {
     @Autowired
     private ActivityMapper activityMapper;
 
-    public List<StatisticsResponse> getStatisticsByActId(Integer actId, String startTime, String endTime) {
-        return actId == null || actId <= 0 ? null : recordMapper.getStatisticsByActId(actId, startTime, endTime);
+    public List<RecordResponse> getRecordByActIdOrUserId(Integer actId, Integer userId) {
+        if ((actId == null || actId <= 0) && (userId == null || userId <= 0)) {
+            return null;
+        }
+        List<Record> recordList = recordMapper.getRecordByActIdOrUserId(actId, userId);
+        List<RecordResponse> responseList = new ArrayList<>(recordList.size());
+        recordList.forEach(record -> {
+            responseList.add(convert(record));
+        });
+        return responseList;
+    }
+
+    public Map<String, List<Statistics>> getStatisticsByActId(Integer actId, String startTime, String endTime) {
+        if (actId == null || actId <= 0) {
+            return null;
+        }
+        List<Statistics> statisticsList = recordMapper.getStatisticsByActId(actId, startTime, endTime);
+        List<Statistics> luckyList = new ArrayList<>();
+        List<Statistics> unluckyList = new ArrayList<>();
+        List<Statistics> allList = new ArrayList<>();
+        statisticsList.forEach(statistics -> {
+            if (statistics.getIsLucky() == 1) {
+                luckyList.add(statistics);
+            } else {
+                unluckyList.add(statistics);
+            }
+        });
+        int i = 0, j = 0;
+        while (i < luckyList.size() && j < unluckyList.size()) {
+            Statistics lucky = luckyList.get(i);
+            Statistics unlucky = unluckyList.get(j);
+            if (lucky.getDate().compareTo(unlucky.getDate()) > 0) {
+                allList.add(unlucky);
+                j++;
+            } else if (lucky.getDate().compareTo(unlucky.getDate()) < 0) {
+                allList.add(lucky);
+                i++;
+            } else {
+                lucky.setCount(lucky.getCount() + unlucky.getCount());
+                allList.add(lucky);
+                i++;
+                j++;
+            }
+        }
+        while (i < luckyList.size()) {
+            allList.add(luckyList.get(i++));
+        }
+        while (j < unluckyList.size()) {
+            allList.add(unluckyList.get(j++));
+        }
+        Map<String, List<Statistics>> map = new HashMap<>();
+        map.put(StatisticsTypeEnum.AWARD.name(), luckyList);
+        map.put(StatisticsTypeEnum.PARTICIPATE.name(), allList);
+        return map;
     }
 
     public Integer countByUserAndAct(Integer userId, Integer actId) {
@@ -136,7 +194,22 @@ public class RecordService {
         }
     }
 
-    public List<UserPrizeResponse> getPersonPrizeOneAct(Integer userId,Integer actId){
-        return recordMapper.getPersonPrizeOneAct(userId,actId);
+    public List<UserPrizeResponse> getPersonPrizeOneAct(Integer userId, Integer actId) {
+        return recordMapper.getPersonPrizeOneAct(userId, actId);
+    }
+
+    public Integer getCountByActId(Integer id) {
+        return recordMapper.getCountByActId(id);
+    }
+
+    private RecordResponse convert(Record record) {
+        return record == null ? null : RecordResponse.builder()
+                .id(record.getId())
+                .type(record.getType())
+                .activityName(activityMapper.selectByPrimaryKey(record.getActivityId()).getName())
+                .prize(prizeService.getPrizeById(record.getPrizeId()))
+                .user(userService.getUserById(record.getUserId()))
+                .date(record.getDate())
+                .build();
     }
 }

@@ -7,27 +7,29 @@ import java.util.stream.Collectors;
 
 /**
  * @author zhengweijun <zhengweijun@kuaishou.com>
- * Created on 2020-06-12
+ * Created on 2020-06-27
  */
-public enum LimitTypeEnum {
 
-    EVERYDAY("每日限定"),
-    ALLALONG("全程限定");
+
+public enum UserTypeEnum {
+
+    WECHAT("微信用"),
+    SEEWO("希沃用户");
 
     private String desc;
 
-    LimitTypeEnum(String desc) {
+    UserTypeEnum(String desc) {
         this.desc = desc;
     }
 
     public String getDesc() {
-        return this.desc;
+        return desc;
     }
 
-    private static final Map<String, LimitTypeEnum> MAP = Arrays.stream(values())
-            .collect(Collectors.toMap(LimitTypeEnum::name, Function.identity(), (o, n) -> o));
+    private static final Map<String, UserTypeEnum> MAP = Arrays.stream(values())
+            .collect(Collectors.toMap(UserTypeEnum::name, Function.identity(), (o, n) -> o));
 
-    public static LimitTypeEnum ofName(String name) {
+    public static UserTypeEnum ofName(String name) {
         return MAP.get(name);
     }
 

@@ -3,6 +3,7 @@ package com.example.activitymanage.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.activitymanage.model.Activity;
@@ -18,5 +19,7 @@ public interface ActivityMapper {
 
     List<Activity> selectAll();
 
-    int updateByPrimaryKey(Activity record);
+    int updateById(@Param("id") Integer id, @Param("act") Activity act);
+
+    int updateActivityStatus(@Param("id") Integer id, @Param("status") String status);
 }

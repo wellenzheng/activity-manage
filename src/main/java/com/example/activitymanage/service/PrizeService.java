@@ -25,7 +25,9 @@ public class PrizeService {
         prizeMapper.insertPrizeList(prizeList);
     }
 
-    public List<Prize> selectByActId(Integer actId){return prizeMapper.selectByActId(actId);}
+    public List<Prize> selectByActId(Integer actId) {
+        return prizeMapper.selectByActId(actId);
+    }
 
     public List<PrizeResponse> getPrizeListByActId(Integer actId) {
         if (actId == null || actId <= 0) {
@@ -41,5 +43,9 @@ public class PrizeService {
 
     public Integer incPrizeColNum(Integer prizeId) {
         return prizeMapper.updatePrizeColNum(prizeId);
+    }
+
+    public Prize getPrizeById(Integer id) {
+        return prizeMapper.selectByPrimaryKey(id);
     }
 }

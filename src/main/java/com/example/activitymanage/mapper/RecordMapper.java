@@ -2,7 +2,9 @@ package com.example.activitymanage.mapper;
 
 import java.util.List;
 
+import com.example.activitymanage.model.Statistics;
 import com.example.activitymanage.response.UserPrizeResponse;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -23,14 +25,17 @@ public interface RecordMapper {
 
     int updateByPrimaryKey(Record record);
 
-    List<StatisticsResponse> getStatisticsByActId(@Param("actId") Integer actId, @Param("startTime") String startTime,
-            @Param("endTime") String endTime);
+    int getCountByActId(@Param("actId") Integer actId);
 
-    Integer countByUserAndAct(@Param("user_id")Integer user_id,@Param("act_id")Integer act_id);
+    List<Statistics> getStatisticsByActId(@Param("actId") Integer actId,
+            @Param("startTime") String startTime, @Param("endTime") String endTime);
 
-    List<UserPrizeResponse> getPersonPrizeOneAct(@Param("user_id") Integer userId,@Param("act_id") Integer actId);
+    Integer countByUserAndAct(@Param("user_id") Integer user_id, @Param("act_id") Integer act_id);
+
+    List<UserPrizeResponse> getPersonPrizeOneAct(@Param("user_id") Integer userId, @Param("act_id") Integer actId);
 
     Integer countByUserAndAct(@Param("userId") Integer userId, @Param("actId") Integer actId,
             @Param("startTime") String startTime, @Param("endTime") String endTime);
 
+    List<Record> getRecordByActIdOrUserId(Integer actId, Integer userId);
 }

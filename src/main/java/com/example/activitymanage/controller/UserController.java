@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.activitymanage.common.CommonIdResponse;
 import com.example.activitymanage.common.CommonResponse;
+import com.example.activitymanage.mapper.ActivityMapper;
 import com.example.activitymanage.model.Activity;
 import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.model.User;
+import com.example.activitymanage.response.ActivityResponse;
 import com.example.activitymanage.response.UserPrizeResponse;
 import com.example.activitymanage.request.UserRequest;
 import com.example.activitymanage.response.WXLoginResponse;
@@ -59,6 +61,9 @@ public class UserController {
     @Autowired
     private PrizeService prizeService;
 
+    @Autowired
+    private ActivityMapper activityMapper;
+
     @GetMapping("/getAllUsers")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ApiOperation(value = "获取所有用户列表")
@@ -97,7 +102,7 @@ public class UserController {
         result = jsonRes.get("openid").toString();
 
         //        return CommonResponse.success("成功",result);
-        List<Activity> allAct = activityService.getAllActivities();
+        List<Activity> allAct = activityMapper.selectAll();
         Activity choosen = null;
         for (Activity act : allAct) {
             if (act.getStatus().equals("PUBLISHED")) {
@@ -111,9 +116,7 @@ public class UserController {
         User user = userService.selectByWeChatId(result);
         Integer leftChance = null;
         if (user == null) {
-            user = new User();
-            user.setWeChatId(result);
-            userService.addUser(user);
+            userService.addUser(User.builder().weChatId(result).build());
             leftChance = choosen.getLimitTimes();
         } else {
             leftChance = choosen.getLimitTimes() - recordService.countByUserAndAct(user.getId(), choosen.getId());
@@ -149,9 +152,9 @@ public class UserController {
 
     @GetMapping("/prizeRecord")
     @ApiOperation(value = "小程序用户中奖记录")
-    public CommonResponse<List<UserPrizeResponse>> personPrizeRecordInOneAct(@RequestParam("weChatId")String weChatId, @RequestParam("actId")Integer actId){
-
-        User user=userService.selectByWeChatId(weChatId);
-        return CommonResponse.success("用户中奖记录",recordService.getPersonPrizeOneAct(user.getId(),actId));
+    public CommonResponse<List<UserPrizeResponse>> personPrizeRecordInOneAct(@RequestParam("weChatId") String weChatId,
+            @RequestParam("actId") Integer actId) {
+        User user = userService.selectByWeChatId(weChatId);
+        return CommonResponse.success("用户中奖记录", recordService.getPersonPrizeOneAct(user.getId(), actId));
     }
 }

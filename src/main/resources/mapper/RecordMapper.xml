@@ -7,6 +7,7 @@
         <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="prize_id" jdbcType="INTEGER" property="prizeId"/>
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="is_lucky" jdbcType="INTEGER" property="isLucky"/>
         <result column="date" jdbcType="TIMESTAMP" property="date"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -15,10 +16,9 @@
   </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.activitymanage.model.Record"
             useGeneratedKeys="true">
-    insert into record (type, activity_id, prize_id, 
-      user_id, date)
+    insert into record (type, activity_id, prize_id, user_id, is_lucky, date)
     values (#{type,jdbcType=VARCHAR}, #{activityId,jdbcType=INTEGER}, #{prizeId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP})
+      #{userId,jdbcType=INTEGER}, #{isLucky,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.example.activitymanage.model.Record">
     update record
@@ -26,24 +26,25 @@
       activity_id = #{activityId,jdbcType=INTEGER},
       prize_id = #{prizeId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      is_lucky = #{isLucky,jdbcType=INTEGER},
       date = #{date,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, type, activity_id, prize_id, user_id, date
+    select id, type, activity_id, prize_id, user_id, is_lucky, date
     from record
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, type, activity_id, prize_id, user_id, date
+    select id, type, activity_id, prize_id, user_id, is_lucky, date
     from record
   </select>
 
-    <select id="getStatisticsByActId" resultType="com.example.activitymanage.response.StatisticsResponse">
-    select DATE_FORMAT(record.date,'%Y-%m-%d') as `date`, count(id) as `count`
+    <select id="getStatisticsByActId" resultType="com.example.activitymanage.model.Statistics">
+    select activity_id as activityId, is_lucky as isLucky, DATE_FORMAT(record.date,'%Y-%m-%d') as `date`, count(id) as `count`
     from record
     where record.activity_id=#{actId} and record.date between #{startTime} and #{endTime}
-    group by record.date
+    group by record.date, record.is_lucky
     order by record.date
   </select>
 
@@ -54,9 +55,30 @@
                 and record.date between #{startTime} and #{endTime}
     </select>
 
+    <select id="getCountByActId" resultType="java.lang.Integer">
+        select count(id)
+        from record
+        where activity_id=#{actId}
+    </select>
+
     <select id="getPersonPrizeOneAct" resultType="com.example.activitymanage.response.UserPrizeResponse">
         select prize.name as 'prizeName',record.date as 'date'
         from record inner join prize on record.prize_id=prize.id
         where record.user_id=#{user_id} and record.activity_id=#{act_id}
+    </select>
+
+    <select id="getRecordByActIdOrUserId" resultMap="BaseResultMap">
+        select *
+        from record
+        where
+        <if test="actId!=null and actId!=''">
+            activity_id = #{actId}
+        </if>
+        <if test="actId!=null and userId!=null">
+            and
+        </if>
+        <if test="userId!=null and userId!=''">
+            user_id = #{userId}
+        </if>
     </select>
 </mapper>

@@ -36,4 +36,8 @@ public class UserService {
         User user = User.convertFrom(userRequest);
         return user == null ? null : userMapper.updateUser(user);
     }
+
+    public User getUserById(Integer id) {
+        return userMapper.selectById(id);
+    }
 }

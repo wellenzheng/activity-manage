@@ -12,13 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Statistics {
-    private Integer id;
-
     private Integer activityId;
 
-    private String type;
+    private Integer isLucky;
 
-    private Integer number;
+    private String date;
 
-    private Date date;
+    private Integer count;
 }

@@ -33,5 +33,5 @@ public class PrizeRequest {
     private Double probability;
 
     @ApiModelProperty("是否中奖")
-    private String isLucky;
+    private Integer isLucky;
 }

@@ -41,7 +41,7 @@ public class Prize {
                 .totalNumber(request.getTotalNumber())
                 .collectedNumber(0)
                 .probability(request.getProbability())
-                .isLucky(request.getIsLucky().equals("是") ? 1 : 0)
+                .isLucky(request.getIsLucky())
                 .build();
     }
 
@@ -50,6 +50,7 @@ public class Prize {
                 .id(prize.getId())
                 .prizeName(prize.getName())
                 .prizeRank(prize.getRanking())
+                .isLucky(prize.getIsLucky())
                 .totalNumber(prize.getTotalNumber())
                 .collectedNumber(prize.getCollectedNumber())
                 .build();

@@ -6,12 +6,14 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
         <result column="limit_type" jdbcType="VARCHAR" property="limitType"/>
         <result column="limit_times" jdbcType="INTEGER" property="limitTimes"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
         <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="virtual_pars" jdbcType="INTEGER" property="virtualPars"/>
         <result column="description" jdbcType="LONGVARCHAR" property="description"/>
     </resultMap>
 
@@ -22,42 +24,73 @@
 
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.activitymanage.model.Activity"
             useGeneratedKeys="true">
-    insert into activity (`name`, `type`, status,
-      limit_type, limit_times,
-      creator, create_time,
-      start_time, end_time, description)
-    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{limitType,jdbcType=VARCHAR}, #{limitTimes,jdbcType=INTEGER},
-      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
-      #{description,jdbcType=LONGVARCHAR})
+    insert into activity (`name`, `type`, status, user_type,
+      limit_type, limit_times, creator, create_time,
+      start_time, end_time, virtual_pars, description)
+    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+      #{userType,jdbcType=VARCHAR}, #{limitType,jdbcType=VARCHAR}, #{limitTimes,jdbcType=INTEGER},
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{startTime,jdbcType=TIMESTAMP},
+      #{endTime,jdbcType=TIMESTAMP}, #{virtualPars} #{description,jdbcType=LONGVARCHAR})
   </insert>
 
-    <update id="updateByPrimaryKey" parameterType="com.example.activitymanage.model.Activity">
-    update activity
-    set name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      limit_type = #{limitType,jdbcType=VARCHAR},
-      limit_times = #{limitTimes,jdbcType=INTEGER},
-      creator = #{creator,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <update id="updateById" parameterType="com.example.activitymanage.model.Activity">
+        update activity
+        set
+        <if test="act.name!=null and act.name!=''">
+            `name` = #{act.name,jdbcType=VARCHAR},
+        </if>
+        <if test="act.type!=null and act.type!=''">
+            `type` = #{act.type,jdbcType=VARCHAR},
+        </if>
+        <if test="act.status!=null and act.status!=''">
+            status = #{act.status,jdbcType=VARCHAR},
+        </if>
+        <if test="act.userType!=null and act.userType!=''">
+            user_type = #{act.userType,jdbcType=VARCHAR},
+        </if>
+        <if test="act.limitType!=null and act.limitType!=''">
+            limit_type = #{act.limitType,jdbcType=VARCHAR},
+        </if>
+        <if test="act.limitTimes!=null and act.limitTimes!=''">
+            limit_times = #{act.limitTimes,jdbcType=INTEGER},
+        </if>
+        <if test="act.creator!=null and act.creator!=''">
+            creator = #{act.creator,jdbcType=VARCHAR},
+        </if>
+        <if test="act.createTime!=null and act.createTime!=''">
+            create_time = #{act.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="act.startTime!=null and act.startTime!=''">
+            start_time = #{act.startTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="act.endTime!=null and act.endTime!=''">
+            end_time = #{act.endTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="act.virtualPars!=null and act.virtualPars!=''">
+            virtual_pars = #{act.virtualPars,jdbcType=INTEGER},
+        </if>
+        <if test="act.description!=null and act.description!=''">
+            description = #{act.description,jdbcType=LONGVARCHAR}
+        </if>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, type, status, limit_type, limit_times,
+    select id, name, type, status, user_type limit_type, limit_times,
     creator, create_time, start_time, end_time, description
     from activity
     where id = #{id,jdbcType=INTEGER}
   </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, type, status, limit_type, limit_times,
+    select id, name, type, status, user_type, limit_type, limit_times,
     creator, create_time, start_time, end_time, description
     from activity
   </select>
+
+    <update id="updateActivityStatus">
+        update activity
+        set status=#{status}
+        where id=#{id}
+    </update>
 </mapper>
