@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-13
  */
 

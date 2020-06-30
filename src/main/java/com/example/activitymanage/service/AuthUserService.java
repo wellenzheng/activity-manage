@@ -10,7 +10,7 @@ import com.example.activitymanage.mapper.AuthUserMapper;
 import com.example.activitymanage.model.AuthUser;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-12
  */
 

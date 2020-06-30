@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-15
  */
 

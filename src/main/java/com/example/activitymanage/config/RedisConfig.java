@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-14
  */
 

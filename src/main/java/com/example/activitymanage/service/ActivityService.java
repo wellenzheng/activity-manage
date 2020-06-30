@@ -20,7 +20,7 @@ import com.example.activitymanage.response.ActivityResponse;
 import com.example.activitymanage.utils.DateFormatUtils;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-13
  */
 

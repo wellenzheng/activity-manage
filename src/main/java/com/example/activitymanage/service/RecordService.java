@@ -30,7 +30,7 @@ import com.example.activitymanage.utils.DateFormatUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-14
  */
 

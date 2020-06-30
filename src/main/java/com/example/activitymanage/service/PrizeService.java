@@ -11,7 +11,7 @@ import com.example.activitymanage.model.Prize;
 import com.example.activitymanage.response.PrizeResponse;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-14
  */
 

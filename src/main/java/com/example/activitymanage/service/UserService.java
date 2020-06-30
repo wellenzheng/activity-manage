@@ -10,7 +10,7 @@ import com.example.activitymanage.model.User;
 import com.example.activitymanage.request.UserRequest;
 
 /**
- * @author zhengweijun <zhengweijun@kuaishou.com>
+ * @author zhengweijun
  * Created on 2020-06-14
  */
 
